@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>16進数電卓&10進数電卓</title>
+<style>
+/* General Styles */
+body {
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+}
+
+#calculator {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.text-glow {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #00d1ff;
+    text-shadow: 0 0 10px #00d1ff, 0 0 20px #00d1ff, 0 0 40px #00d1ff;
+}
+
+input {
+    width: calc(100% - 20px);
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+}
+
+button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(45deg, #00d1ff, #007bff);
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    transform: scale(1.1);
+}
+
+p {
+    font-size: 18px;
+    margin-top: 20px;
+    color: #ffdd57;
+}
+
+#page2 {
+    display: none;
+}
+</style>
+<script>
+//setWindowDrag(0,0,400,50);
+let currentPage = 1;
+
+window.onload = function() {
+    updatePageVisibility();
+};
+
+function updateDisplay(value) {
+    document.getElementById("inputA").value = value;
+}
+
+function clearDisplay1() {
+    document.getElementById("inputA").value = "";
+    document.getElementById("inputB").value = "";      
+}
+
+function clearDisplay2() {
+    document.getElementById("inputC").value = "";
+    document.getElementById("inputD").value = "";      
+}  
+
+function switchPage(pageNumber) {
+    currentPage = pageNumber;
+    updatePageVisibility();      
+}
+
+function updatePageVisibility() {
+    document.getElementById("page1").style.display = currentPage === 1 ? "block" : "none";
+    document.getElementById("page2").style.display = currentPage === 2 ? "block" : "none";
+}
+
+function calculate(operation) {
+    const A_Hex = document.getElementById("inputA").value;
+    const B_Hex = document.getElementById("inputB").value;
+    const A_decimal = parseInt(A_Hex, 16);
+    const B_decimal = parseInt(B_Hex, 16);
+
+    let C_decimal;
+    if (operation === "add") {
+        C_decimal = A_decimal + B_decimal;
+    } else if (operation === "subtract") {
+        C_decimal = A_decimal - B_decimal;
+    }
+
+    const C_Hex = "0x" + C_decimal.toString(16).toUpperCase();
+    document.getElementById("result").innerHTML = `Address of C = ${C_Hex}`;
+    copyToClipboard(C_Hex);
+}
+
+function calculateDecimal(operator) {
+    const inputC = parseFloat(document.getElementById("inputC").value);
+    const inputD = parseFloat(document.getElementById("inputD").value);
+    let result;
+
+    switch (operator) {
+        case "+":
+            result = inputC + inputD;
+            break;
+        case "-":
+            result = inputC - inputD;
+            break;
+        case "*":
+            result = inputC * inputD;
+            break;
+        case "/":
+            result = inputC / inputD;
+            break;
+        default:
+            result = "Error";   
+    }
+
+    document.getElementById("result2").innerHTML = `Result: ${result}`; 
+}
+
+function copyToClipboard(value) {
+    const textarea = document.createElement("textarea");
+    textarea.value = value;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+}
+</script>
+</head>
+<body>
+  <div id="calculator">
+    <div id="page1">
+      <h1 class="text-glow">16進数電卓</h1>
+      <input type="text" id="inputA" placeholder="Enter value of A">
+      <input type="text" id="inputB" placeholder="Enter value of B">
+      <button onclick="calculate('add')">+</button>
+      <button onclick="calculate('subtract')">-</button>
+      <button onclick="clearDisplay1()">C</button>
+      <button onclick="switchPage(2)">S</button>
+      <p id="result"></p>
+    </div>
+    <div id="page2">
+      <h1 class="text-glow">10進数電卓</h1>
+      <input type="text" id="inputC" placeholder="Enter value of C">
+      <input type="text" id="inputD" placeholder="Enter value of D">
+      <button onclick="calculateDecimal('+')">+</button>
+      <button onclick="calculateDecimal('-')">-</button>
+      <button onclick="calculateDecimal('*')">*</button>
+      <button onclick="calculateDecimal('/')">/</button>
+      <button onclick="clearDisplay2()">C</button>
+      <button onclick="switchPage(1)">S</button>
+      <p id="result2"></p>
+    </div>
+  </div>
+</body>
+</html>
