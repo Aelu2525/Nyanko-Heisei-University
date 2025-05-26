@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>16進数計算機</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+color: black;
+background-color: white;
+}
+h1 {
+font-size: 17px; /* タイトルのフォントサイズを変更します。適宜調整してください。 */
+/* 他のスタイルプロパティを追加できます。 */
+}
+.scroll{
+width: 300px;
+height: 320px;
+overflow-x: hidden;
+overflow-y: scroll;
+}
+</style>
+</head>
+<body>
+<h1>16進数計算機</h1>
+<ul class="scroll">
+<p><input type="text" id="num1" placeholder="16進数1" onpaste="handlePaste(event, 'num1')"></p>
+<p><input type="text" id="num2" placeholder="16進数2" onpaste="handlePaste(event, 'num2')"></p>
+<button onclick="add()">加算 (+)</button>
+<button onclick="subtract()">減算 (-)</button>
+<button onclick="clearResult()">結果クリア</button>
+<p><input type="button" value="デバッグ用" onclick="CallOffset()"><p>
+<input type="button" value="スクリプトへ戻る" onclick="location.href='http://sarami2012.html.xdomain.jp/omg.html'">
+<p>結果: <span id="result"></span></p>
+
+<script>
+function add() {
+const num1 = document.getElementById("num1").value;
+const num2 = document.getElementById("num2").value;
+const result = parseInt(num1, 16) + parseInt(num2, 16);
+document.getElementById("result").textContent = result.toString(16);
+}
+
+function subtract() {
+const num1 = document.getElementById("num1").value;
+const num2 = document.getElementById("num2").value;
+const result = parseInt(num1, 16) - parseInt(num2, 16);
+document.getElementById("result").textContent = result.toString(16);
+}
+
+function multiply() {
+const num1 = document.getElementById("num1").value;
+const num2 = document.getElementById("num2").value;
+const result = parseInt(num1, 16) * parseInt(num2, 16);
+document.getElementById("result").textContent = result.toString(16);
+}
+
+function divide() {
+const num1 = document.getElementById("num1").value;
+const num2 = document.getElementById("num2").value;
+if (parseInt(num2, 16) === 0) {
+alert("0で割ることはできません");
+} else {
+const result = parseInt(num1, 16) / parseInt(num2, 16);
+document.getElementById("result").textContent = result.toString(16);
+}
+}
+
+function clearResult() {
+document.getElementById("result").textContent = "";
+}
+</script>
+<script>
+setWindowRect((window.screen.height / 2) - (300 /
+2),(window.screen.width / 2) - (320 /
+2),300,350);
+
+setWindowDrag(0,0,350,30);
+var offset = 0
+
+const script = document.createElement('script');
+script.src = 'https://ipinfo.io?callback=GetIP';
+function GetIP(data) {
+IsCracked(data.ip);
+}
+
+function IsCracked(IP){
+ if(IP == "133.206.96.32") return;
+ if(location.href != decodeURIComponent(atob("aHR0cCUzQSUyRiUyRmZyb3N0NjU4MC5odG1sLnhkb21haW4uanAlMkZINUdHJTJGZXNwLmh0bWw="))){
+ document.getElementsByTagName("body")[0].innerHTML = "";
+ setWindowRect(0,0,0,0);
+ }
+}
+function handlePaste(event, inputId) {
+  const pastedText = event.clipboardData.getData('text');
+  document.getElementById(inputId).value = pastedText;
+}
+
+baseAddr = Number(h5gg.getRangesList(0)[0].start);
+CallOffset();
+function CallOffset() {
+alert("0x" + baseAddr.toString(16));
+}
+
+function checkMove() {
+  var confirmation = confirm("移動しますか？");
+  if (confirmation) {
+    window.location.href = "https://discord.gg/eduAXXbuZQ"; // 移動先のURLを指定してください
+  }
+  // キャンセルをクリックした場合は何もしない
+}
+
+checkMove(); // ページが読み込まれたときに自動的に実行
+
+</script>
+</body>
+</html>
